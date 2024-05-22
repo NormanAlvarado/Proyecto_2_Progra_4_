@@ -12,9 +12,9 @@ namespace DataAcess.Entities
         public string Name { get; set; }          // Nombre del usuario
         public string Email { get; set; }         // Email del usuario
         public string PhoneNumber { get; set; }   // Teléfono del usuario
-        public string PasswordHash { get; set; }  // Hash de la contraseña del usuario
-        public int RoleId { get; set; }           // Clave foránea a la entidad Role
-        public Role Role { get; set; }            // Relación con la entidad Role
+        public string Password { get; set; }  // la contraseña del usuario
+        public int? RoleId { get; set; }           // Clave foránea a la entidad Role
+        public Role? Role { get; set; }            // Relación con la entidad Role
         public ICollection<Appointment> Appointments { get; set; }  // Relación con las citas
     }
 }

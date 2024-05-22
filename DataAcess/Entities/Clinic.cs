@@ -9,8 +9,7 @@ namespace DataAcess.Entities
     public class Clinic
     {
         public int Id { get; set; }
-        public string Name { get; set; }          // Nombre de la clínica
-        public string Address { get; set; }       // Dirección de la clínica
+        public string Name { get; set; }          // Nombre de la clínica***Sucursal***
         public ICollection<Appointment> Appointments { get; set; }  // Relación con las citas
     }
 }
