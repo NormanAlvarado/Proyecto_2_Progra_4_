@@ -11,7 +11,7 @@ namespace DataAcess
         {
 
             services.AddDbContext<MyDbContext>(options =>
-            options.UseMySQL(
+            options.UseSqlServer(
                 configuration.
                 GetConnectionString("MyDbContext")
                 ?? throw new InvalidOperationException("Connection string 'MyDbContext' not found.")

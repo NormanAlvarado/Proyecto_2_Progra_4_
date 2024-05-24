@@ -1,7 +1,8 @@
 ﻿using DataAcess.Data;
 using DataAcess.Entities;
 using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Bcpg;
+
+using Services.IServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public class ClinicService
+    public class ClinicService : IClinicService
     {
         private readonly MyDbContext _context;
 

@@ -16,7 +16,7 @@ namespace Services
         {
             services.AddScoped<IUserService, UserService>();
              services.AddScoped<IAppointmentService, AppointmentService>();
-          //  services.AddScoped<IClinicService, ClinicService>();
+             services.AddScoped<IClinicService, ClinicService>();
 
             return services;
         }

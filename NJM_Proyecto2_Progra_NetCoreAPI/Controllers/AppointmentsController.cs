@@ -9,6 +9,8 @@ using static Services.Extensions.DtoMapping;
 
 namespace NJM_Proyecto2_Progra_NetCoreAPI.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class AppointmentsController : ControllerBase
     {
         private readonly IAppointmentService _context;

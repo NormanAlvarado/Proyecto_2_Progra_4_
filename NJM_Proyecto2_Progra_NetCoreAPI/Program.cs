@@ -1,15 +1,16 @@
-using DataAcess.Data;
+using DataAcess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddDataAccess(builder.Configuration);
+builder.Services.AddServices(builder.Configuration);
 // Add services to the container.
 
 // Add DbContext service
-builder.Services.AddDbContext<MyDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 builder.Services.AddControllers();
 

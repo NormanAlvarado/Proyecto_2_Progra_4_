@@ -3,6 +3,8 @@ using DataAcess.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Services.IService;
+using static Services.Extensions.DtoMapping;
 
 namespace NJM_Proyecto2_Progra_NetCoreAPI.Controllers
 {
@@ -10,23 +12,23 @@ namespace NJM_Proyecto2_Progra_NetCoreAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly MyDbContext _context;
+        private readonly IUserService _service;
 
-        public UsersController(MyDbContext context)
+        public UsersController(IUserService service)
         {
-            _context = context;
+            _service = service;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            return await _service.Get();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _service.GetById(id);
 
             if (user == null)
             {
@@ -36,47 +38,14 @@ namespace NJM_Proyecto2_Progra_NetCoreAPI.Controllers
             return user;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        [HttpPost("/register")]
+        public async Task<ActionResult<User>> PostUser(DtoRegister user)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            var newUser = await _service.Register(user);
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return Ok(newUser);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
-        {
-            if (id != user.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(user).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        private bool UserExists(int id)
-        {
-            return _context.Users.Any(e => e.Id == id);
-        }
+       
     }
 }

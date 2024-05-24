@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Services.Extensions.DtoMapping;
 
+
 namespace Services
 {
     public class UserService : IUserService
@@ -23,6 +24,11 @@ namespace Services
     {
         private readonly MyDbContext _dbContext;
         private readonly IConfiguration _configuration;
+        public UserService(MyDbContext dbContext, IConfiguration configuration)
+        {
+            _dbContext = dbContext;
+            _configuration = configuration;
+        }
 
         public async Task<User> Register(DtoRegister user)
         {
@@ -60,7 +66,7 @@ namespace Services
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-                _configuration.GetSection("AppSettings:Token").Value));
+                _configuration.GetSection("AppSettings:JWT_Secret").Value));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
