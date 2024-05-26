@@ -45,7 +45,7 @@ namespace Services
             newUser.Email = user.Email;
             newUser.Password = user.Password;
             newUser.PhoneNumber = user.PhoneNumber;
-            newUser.RoleId = 1;
+            newUser.RoleId = 2;
 
 
             _dbContext.Users.Add(newUser);
@@ -61,21 +61,25 @@ namespace Services
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.MobilePhone, user.PhoneNumber),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
 
             };
 
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-                _configuration.GetSection("AppSettings:JWT_Secret").Value));
+
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+                _configuration.GetSection("ApplicationSettings:JWT_Secret").Value!));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.Now.AddDays(1),
-                signingCredentials: creds);
+                    claims: claims,
+                    expires: DateTime.Now.AddDays(1),
+                    signingCredentials: creds
+                );
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
             return jwt;
         }
 

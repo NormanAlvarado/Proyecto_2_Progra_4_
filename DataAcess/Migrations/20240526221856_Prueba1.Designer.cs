@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAcess.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20240524043844_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240526221856_Prueba1")]
+    partial class Prueba1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,6 +94,18 @@ namespace DataAcess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "USER"
+                        });
                 });
 
             modelBuilder.Entity("DataAcess.Entities.User", b =>

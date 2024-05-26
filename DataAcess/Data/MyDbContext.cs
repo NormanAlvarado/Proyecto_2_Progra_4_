@@ -15,7 +15,14 @@ namespace DataAcess.Data
         {
 
         }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            //base.OnConfiguring(optionsBuilder);
+            // optionsBuilder.UseInMemoryDatabase("MyDatabase");
+            //JOSED\SQLEXPRESS
 
+            optionsBuilder.UseSqlServer("Server=JOSED\\SQLEXPRESS;Database=ClinicaDB;Trusted_Connection=True; MultipleActiveResultSets=true;TrustServerCertificate=True");
+        }
         public DbSet<User> Users { get; set; }
 
         public DbSet<Clinic> Clinics { get; set; }
@@ -46,7 +53,9 @@ namespace DataAcess.Data
                 .HasForeignKey(e => e.ClinicId)
                 .IsRequired(true);
 
-
+            modelBuilder.Entity<Role>().HasData(
+                new Role { Id = 1, Name = "ADMIN" },
+                new Role { Id = 2, Name = "USER" }); 
 
         }
     }

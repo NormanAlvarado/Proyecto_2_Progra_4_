@@ -11,6 +11,7 @@ namespace NJM_Proyecto2_Progra_NetCoreAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AppointmentsController : ControllerBase
     {
         private readonly IAppointmentService _context;
@@ -58,7 +59,7 @@ namespace NJM_Proyecto2_Progra_NetCoreAPI.Controllers
         }
 
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             await _context.Delete(id);

@@ -46,6 +46,19 @@ namespace NJM_Proyecto2_Progra_NetCoreAPI.Controllers
             return Ok(newUser);
         }
 
-       
+
+        [HttpPost("login")]
+        public async Task<Object> Login(DtoLogin request)
+        {
+            var user = await _service.Login(request);
+
+            if (user == null)
+            {
+                return BadRequest("User not found.");
+            }
+
+            return Ok(user);
+        }
+
     }
 }

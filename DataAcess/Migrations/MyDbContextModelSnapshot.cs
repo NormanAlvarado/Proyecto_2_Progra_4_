@@ -91,6 +91,18 @@ namespace DataAcess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "USER"
+                        });
                 });
 
             modelBuilder.Entity("DataAcess.Entities.User", b =>
