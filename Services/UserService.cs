@@ -63,6 +63,9 @@ namespace Services
                 new Claim(ClaimTypes.MobilePhone, user.PhoneNumber),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
 
+                new Claim(ClaimTypes.Role, user.RoleId.ToString()),
+
+            //    new Claim("RoleId", user.RoleId.ToString())
             };
 
 
@@ -100,6 +103,8 @@ namespace Services
 
         public async Task<object> Login(DtoLogin request)
         {
+       //     var user = await _dbContext.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == request.Email);
+
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
             if (user == null)
             {

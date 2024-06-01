@@ -44,6 +44,29 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
     };
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins", builder =>
+    {
+        builder
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
+
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdministratorRole", policy =>
+        policy.RequireClaim("RoleId", "1")); // "1" representa el rol de ADMIN
+    options.AddPolicy("RequireUserRole", policy =>
+        policy.RequireClaim("RoleId", "2")); // "2" representa el rol de USER
+});
+
+
+
+
 var app = builder.Build();
 
 // Configura el pipeline de solicitudes HTTP
@@ -55,6 +78,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+
+app.UseCors("AllowAllOrigins");
 // Asegúrate de llamar UseAuthentication antes de UseAuthorization
 app.UseAuthentication();
 app.UseAuthorization();
