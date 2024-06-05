@@ -53,10 +53,20 @@ namespace DataAcess.Data
                 .HasForeignKey(e => e.ClinicId)
                 .IsRequired(true);
 
+
             modelBuilder.Entity<Role>().HasData(
                 new Role { Id = 1, Name = "ADMIN" },
-                new Role { Id = 2, Name = "USER" }); 
+                new Role { Id = 2, Name = "USER" });
 
+//            modelBuilder.Entity<User>().HasData(
+//                new User { Id = 1, Name = "Admin", Email="admin@gmail.com", Password="1234", PhoneNumber="11223344", RoleId = 1},
+//                new User { Id = 2, Name = "Dav", Email = "Dav@gmail.com", Password = "1234", PhoneNumber = "22334455", RoleId = 2  });
+
+            modelBuilder.Entity<Clinic>().HasData(
+                 new Clinic { Id = 1, Name = "Clinica San Juan" },
+                 new Clinic { Id = 2, Name = "Clinica Montoya" },
+                 new Clinic { Id = 3, Name = "Clinica Marcox" });
         }
+
     }
 }

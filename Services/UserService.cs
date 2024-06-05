@@ -58,14 +58,14 @@ namespace Services
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Name),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.MobilePhone, user.PhoneNumber),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim("Name", user.Name.ToString()),
+                new Claim("Email", user.Email.ToString()),
+                new Claim("MobilePhone", user.PhoneNumber.ToString()),
+                new Claim("NameIdentifier", user.Id.ToString()),
 
-                new Claim(ClaimTypes.Role, user.RoleId.ToString()),
+             //   new Claim(ClaimTypes.Role, user.RoleId.ToString()),
 
-            //    new Claim("RoleId", user.RoleId.ToString())
+               new Claim("RoleId", user.RoleId.ToString())
             };
 
 

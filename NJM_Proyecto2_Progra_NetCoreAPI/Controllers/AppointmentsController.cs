@@ -21,7 +21,7 @@ namespace NJM_Proyecto2_Progra_NetCoreAPI.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        [HttpGet,  Authorize]
         public async Task<List<Appointment>> GetAll()
         {
             List<Appointment> result = await _context.GetAll();
@@ -29,7 +29,7 @@ namespace NJM_Proyecto2_Progra_NetCoreAPI.Controllers
             return result;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), Authorize]
         public async Task<Appointment> GetById(int id)
         {
             var result = await _context.GetById(id);
@@ -37,21 +37,21 @@ namespace NJM_Proyecto2_Progra_NetCoreAPI.Controllers
             return result;
         }
 
-        [HttpPut]
+        [HttpPut, Authorize]
         public async Task<IActionResult> Update(DtoUpdateAppointment appointment)
         {
             await _context.Update(appointment);
             return NoContent();
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public async Task<ActionResult<DtoAppointment>> Create(DtoAppointment appointment)
         {
             var result = await _context.Create(appointment);
 
             return Ok(result);
         }
-        [HttpPatch("cancel/{id}")]
+        [HttpPatch("cancel/{id}"), Authorize(Policy = "RequireUserRole")]
         public async Task<IActionResult> Cancel(int id)
         {
             await _context.Cancel(id);

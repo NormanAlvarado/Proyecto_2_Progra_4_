@@ -8,6 +8,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using System.Text.Json.Serialization; // Asegúrate de incluir este using para ReferenceHandler
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,8 +16,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDataAccess(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
 
-// Agrega los controladores
-builder.Services.AddControllers();
+// Agrega los controladores y configura las opciones de JSON
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+});
 
 // Configura Swagger con soporte para JWT
 builder.Services.AddEndpointsApiExplorer();
@@ -55,7 +59,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("RequireAdministratorRole", policy =>
@@ -63,9 +66,6 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("RequireUserRole", policy =>
         policy.RequireClaim("RoleId", "2")); // "2" representa el rol de USER
 });
-
-
-
 
 var app = builder.Build();
 
@@ -77,7 +77,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 
 app.UseCors("AllowAllOrigins");
 // Asegúrate de llamar UseAuthentication antes de UseAuthorization
