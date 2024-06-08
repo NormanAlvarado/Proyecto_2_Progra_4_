@@ -21,7 +21,7 @@ namespace DataAcess.Data
             // optionsBuilder.UseInMemoryDatabase("MyDatabase");
             //JOSED\SQLEXPRESS
 
-            optionsBuilder.UseSqlServer("Server=JOSED\\SQLEXPRESS;Database=ClinicaDB;Trusted_Connection=True; MultipleActiveResultSets=true;TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer("Server=MSI\\SQLEXPRESS01;Database=ClinicaDB;Trusted_Connection=True; MultipleActiveResultSets=true;TrustServerCertificate=True");
         }
         public DbSet<User> Users { get; set; }
 
@@ -58,9 +58,7 @@ namespace DataAcess.Data
                 new Role { Id = 1, Name = "ADMIN" },
                 new Role { Id = 2, Name = "USER" });
 
-//            modelBuilder.Entity<User>().HasData(
-//                new User { Id = 1, Name = "Admin", Email="admin@gmail.com", Password="1234", PhoneNumber="11223344", RoleId = 1},
-//                new User { Id = 2, Name = "Dav", Email = "Dav@gmail.com", Password = "1234", PhoneNumber = "22334455", RoleId = 2  });
+
 
             modelBuilder.Entity<Clinic>().HasData(
                  new Clinic { Id = 1, Name = "Clinica San Juan" },

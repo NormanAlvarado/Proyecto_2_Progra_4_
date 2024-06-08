@@ -17,10 +17,11 @@ builder.Services.AddDataAccess(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
 
 // Agrega los controladores y configura las opciones de JSON
-builder.Services.AddControllers().AddJsonOptions(options =>
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
-    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 });
+
 
 // Configura Swagger con soporte para JWT
 builder.Services.AddEndpointsApiExplorer();
@@ -32,7 +33,7 @@ builder.Services.AddSwaggerGen(options =>
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey
     });
-    options.OperationFilter<SecurityRequirementsOperationFilter>();
+    options.OperationFilter<SecurityRequirementsOperationFilter>(); 
 });
 
 // Configura la autenticación JWT

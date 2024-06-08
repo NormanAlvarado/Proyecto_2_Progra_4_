@@ -18,7 +18,7 @@ namespace Services.IServices
 
         public Task<Appointment> Create(DtoAppointment appointment);
 
-       
+        public Task<List<Appointment>> GetAppointmentsForToday();
 
         public Task Cancel(int id);
 

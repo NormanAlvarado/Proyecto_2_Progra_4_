@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAcess.Migrations
 {
     /// <inheritdoc />
-    public partial class Prueba1 : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -89,6 +89,16 @@ namespace DataAcess.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Clinics",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Clinica San Juan" },
+                    { 2, "Clinica Montoya" },
+                    { 3, "Clinica Marcox" }
                 });
 
             migrationBuilder.InsertData(

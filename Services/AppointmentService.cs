@@ -105,15 +105,38 @@ namespace Services
             try
             {
                 var message = new MimeMessage();
-                message.From.Add(new MailboxAddress("Nombre de la Clínica", "email_clinica@example.com"));
+                message.From.Add(new MailboxAddress("Clinica MNJNW", ""));
                 message.To.Add(new MailboxAddress("", userEmail));
                 message.Subject = "Confirmación de Cita";
 
                 var bodyBuilder = new BodyBuilder();
-                bodyBuilder.TextBody = $"Hola, tienes una nueva cita. Detalles:\n" +
-                                       $"Fecha y Hora: {appointment.AppointmentDate}\n" +
-                                       $"Ubicación: {appointment.Location}\n" +
-                                       $"Tipo de Cita: {appointment.TypeOfAppointment}";
+                bodyBuilder.HtmlBody = $@"
+            <html>
+            <body style='font-family: Arial, sans-serif;'>
+                <div style='max-width: 600px; margin: auto; padding: 20px; border: 1px solid #dcdcdc; border-radius: 10px;'>
+                    <h2 style='color: #333;'>Confirmación de Cita</h2>
+                    <p>Hola,</p>
+                    <p>Tienes una nueva cita. Detalles:</p>
+                    <table style='width: 100%; border-collapse: collapse;'>
+                        <tr>
+                            <td style='padding: 10px; border: 1px solid #dcdcdc;'>Fecha y Hora:</td>
+                            <td style='padding: 10px; border: 1px solid #dcdcdc;'>{appointment.AppointmentDate.ToString("f")}</td>
+                        </tr>
+                        <tr>
+                            <td style='padding: 10px; border: 1px solid #dcdcdc;'>Ubicación:</td>
+                            <td style='padding: 10px; border: 1px solid #dcdcdc;'>{appointment.Location}</td>
+                        </tr>
+                        <tr>
+                            <td style='padding: 10px; border: 1px solid #dcdcdc;'>Tipo de Cita:</td>
+                            <td style='padding: 10px; border: 1px solid #dcdcdc;'>{appointment.TypeOfAppointment}</td>
+                        </tr>
+                    </table>
+                    <p style='margin-top: 20px;'>Gracias por elegir nuestra clínica.</p>
+                    <p>Saludos,</p>
+                    <p><strong>Clinica MNJNW</strong></p>
+                </div>
+            </body>
+            </html>";
                 message.Body = bodyBuilder.ToMessageBody();
 
                 using (var client = new MailKit.Net.Smtp.SmtpClient())
@@ -126,6 +149,10 @@ namespace Services
             }
             catch (Exception ex)
             {
+                // Handle the exception (e.g., log it)
+            
+        
+
                 // Aquí deberías registrar la excepción 'ex'
                 // Puedes usar un sistema de logging como Serilog, NLog, etc.
                 // También podrías decidir qué hacer a continuación, por ejemplo, reintentar el envío o informar al usuario
@@ -167,6 +194,21 @@ namespace Services
             List<Appointment> list = await _context.Appointments.ToListAsync();
 
             return list;
+        }
+        public async Task<List<Appointment>> GetAppointmentsForToday()
+        {
+           
+            var today = DateTime.Today;
+
+            
+            var tomorrow = today.AddDays(1);
+
+            
+            List<Appointment> todayAppointments = await _context.Appointments
+                .Where(a => a.AppointmentDate >= today && a.AppointmentDate < tomorrow)
+                .ToListAsync();
+
+            return todayAppointments;
         }
 
         public async Task<Appointment> GetById(int id)
